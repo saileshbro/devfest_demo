@@ -20,8 +20,12 @@ class AgendaPage extends StatelessWidget {
             SessionList(
               allSessions: sessions,
             ),
-            Container(),
-            Container(),
+            SessionList(
+              allSessions: sessions,
+            ),
+            SessionList(
+              allSessions: sessions,
+            )
           ],
         ),
         tabBar: TabBar(
