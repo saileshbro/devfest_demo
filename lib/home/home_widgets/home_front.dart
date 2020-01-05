@@ -1,6 +1,9 @@
+import 'package:devfest_demo/agenda/agenda_page.dart';
 import 'package:devfest_demo/config/index.dart';
+import 'package:devfest_demo/speakers/speaker_page.dart';
 import 'package:devfest_demo/universal/image_card.dart';
 import 'package:devfest_demo/utils/devfest.dart';
+import 'package:devfest_demo/utils/tools.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -21,6 +24,53 @@ class HomeFront extends StatelessWidget {
           textAlign: TextAlign.center,
         )
       ];
+  Widget newActions(context) => Wrap(
+        alignment: WrapAlignment.center,
+        spacing: 20,
+        runSpacing: 20,
+        children: <Widget>[
+          ActionCard(
+            color: Colors.red,
+            onPressed: () {
+              Navigator.of(context).pushNamed(AgendaPage.routeName);
+            },
+            icon: Icons.schedule,
+            title: Devfest.agenda_text,
+          ),
+          ActionCard(
+            color: Colors.green,
+            onPressed: () {
+              Navigator.of(context).pushNamed(SpeakersPage.routeName);
+            },
+            icon: Icons.person,
+            title: Devfest.speakers_text,
+          ),
+          ActionCard(
+            color: Colors.amber,
+            onPressed: () {},
+            icon: Icons.people,
+            title: Devfest.team_text,
+          ),
+          ActionCard(
+            color: Colors.purple,
+            onPressed: () {},
+            icon: Icons.attach_money,
+            title: Devfest.sponsor_text,
+          ),
+          ActionCard(
+            color: Colors.brown,
+            onPressed: () {},
+            icon: Icons.question_answer,
+            title: Devfest.faq_text,
+          ),
+          ActionCard(
+            color: Colors.blue,
+            onPressed: () {},
+            icon: Icons.map,
+            title: Devfest.map_text,
+          ),
+        ],
+      );
   Widget socialActions(context) => FittedBox(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -95,6 +145,10 @@ class HomeFront extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
+            newActions(context),
+            SizedBox(
+              height: 20,
+            ),
             socialActions(context),
             SizedBox(
               height: 20,
@@ -103,6 +157,58 @@ class HomeFront extends StatelessWidget {
               Devfest.app_version,
               style: Theme.of(context).textTheme.caption.copyWith(fontSize: 10),
             )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ActionCard extends StatelessWidget {
+  final VoidCallback onPressed;
+  final IconData icon;
+  final String title;
+  final Color color;
+
+  const ActionCard({
+    Key key,
+    @required this.onPressed,
+    @required this.icon,
+    @required this.title,
+    @required this.color,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(8),
+      onTap: onPressed,
+      child: Ink(
+        height: MediaQuery.of(context).size.height * 0.1,
+        width: MediaQuery.of(context).size.width * 0.2,
+        decoration: BoxDecoration(
+            color: BlocProvider.of<ConfigBloc>(context).darkModeOn
+                ? Tools.hexToColor("#1F2124")
+                : Colors.white,
+            borderRadius: BorderRadius.circular(8),
+            boxShadow: BlocProvider.of<ConfigBloc>(context).darkModeOn
+                ? []
+                : [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.3),
+                      blurRadius: 10,
+                      spreadRadius: 5,
+                    )
+                  ]),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Icon(
+              icon,
+              color: color,
+            ),
+            SizedBox(height: 10),
+            Text(title)
           ],
         ),
       ),
